@@ -45,3 +45,60 @@ loadMoreButton.addEventListener('click', () => {
         loadPokemonItens(offset, limit)
     }
 })
+function showPokemonDetails(pokemon) {
+    const modal = document.getElementById('pokemonModal');
+    const span = document.getElementsByClassName('close')[0];
+    const details = document.getElementById('pokemonDetails');
+
+    details.innerHTML = `
+        <h2>${pokemon.name}</h2>
+        <img src="${pokemon.photo}" alt="${pokemon.name}">
+        <p>Number: ${pokemon.number}</p>
+        <p>Type: ${pokemon.types.join(', ')}</p>
+    `;
+
+    modal.style.display = 'block';
+
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
+
+function convertPokemonToLi(pokemon) {
+    return `
+        <li class="pokemon ${pokemon.type}" onclick="showPokemonDetails(${JSON.stringify(pokemon)})">
+            <span class="number">#${pokemon.number}</span>
+            <span class="name">${pokemon.name}</span>
+
+            <div class="detail">
+                <ol class="types">
+                    ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+                </ol>
+
+                <img src="${pokemon.photo}" alt="${pokemon.name}">
+            </div>
+        </li>
+    `;
+}
+function convertPokemonToLi(pokemon) {
+    return `
+        <li class="pokemon ${pokemon.type}" onclick="window.location.href='pokemon-details.html?pokemon=${encodeURIComponent(JSON.stringify(pokemon))}'">
+            <span class="number">#${pokemon.number}</span>
+            <span class="name">${pokemon.name}</span>
+
+            <div class="detail">
+                <ol class="types">
+                    ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+                </ol>
+
+                <img src="${pokemon.photo}" alt="${pokemon.name}">
+            </div>
+        </li>
+    `;
+}
